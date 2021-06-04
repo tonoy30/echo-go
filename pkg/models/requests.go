@@ -10,6 +10,7 @@ import (
 type RegisterRequest struct {
 	Username string `json:"username"`
 	Password string `json:"password"`
+	Email    string `json:"email"`
 }
 
 type LoginRequest struct {
@@ -33,6 +34,10 @@ func ValidateRegisterRequest(w http.ResponseWriter, r *http.Request) (*domain.Us
 	}
 
 	var validationErrors []string
+
+	if len(registerRequest.Email) < 4 {
+		validationErrors = append(validationErrors, "not a valid email address")
+	}
 
 	if len(registerRequest.Password) < 8 {
 		validationErrors = append(validationErrors, "password must be min 8 characters long")
