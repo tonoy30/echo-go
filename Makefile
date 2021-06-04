@@ -5,3 +5,5 @@ run:
 	./bin/main.exe
 clean:
 	powershell if (Test-Path ./bin/) {rm -r ./bin/}
+docker:
+	docker compose up -d --build
