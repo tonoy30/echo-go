@@ -6,7 +6,7 @@ import (
 	"log"
 	"time"
 
-	"github.com/tonoy30/echo-go/pkg/config"
+	"github.com/tonoy30/echo-go/pkg/settings"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
@@ -17,7 +17,7 @@ type Connection struct {
 	ctx    context.Context
 }
 
-func NewConnection(settings *config.Settings) Connection {
+func NewConnection(settings *settings.Settings) Connection {
 	uri := fmt.Sprintf("%s://%s:%s/%s", settings.DBDriver, settings.DBHost, settings.DBPort, settings.DBName)
 
 	credentials := options.Credential{
