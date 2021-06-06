@@ -1,9 +1,7 @@
 package models
 
 import (
-	"net/http"
-
-	"github.com/gorilla/mux"
+	"github.com/labstack/echo/v4"
 	"github.com/tonoy30/echo-go/pkg/domain"
 )
 
@@ -18,26 +16,12 @@ type LoginRequest struct {
 	Password string `json:"password"`
 }
 
-func ValidateRegisterRequest(w http.ResponseWriter, r *http.Request) (*domain.User, *Error) {
-	vars := mux.Vars(r)
-
-	if _, hasUsername := vars["username"]; !hasUsername {
+func ValidateRegisterRequest(c echo.Context) (*domain.User, *Error) {
+	registerRequest := new(RegisterRequest)
+	if err := c.Bind(registerRequest); err != nil {
 		return nil, BindError()
 	}
-	if _, hasPassword := vars["password"]; !hasPassword {
-		return nil, BindError()
-	}
-
-	registerRequest := &RegisterRequest{
-		Username: vars["username"],
-		Password: vars["password"],
-	}
-
 	var validationErrors []string
-
-	if len(registerRequest.Email) < 4 {
-		validationErrors = append(validationErrors, "not a valid email address")
-	}
 
 	if len(registerRequest.Password) < 8 {
 		validationErrors = append(validationErrors, "password must be min 8 characters long")
@@ -55,19 +39,12 @@ func ValidateRegisterRequest(w http.ResponseWriter, r *http.Request) (*domain.Us
 	}, nil
 }
 
-func ValidateLoginRequest(w http.ResponseWriter, r *http.Request) (*domain.User, *Error) {
-	vars := mux.Vars(r)
-	if _, hasUsername := vars["username"]; !hasUsername {
-		return nil, BindError()
-	}
-	if _, hasPassword := vars["password"]; !hasPassword {
-		return nil, BindError()
-	}
-	loginRequest := &LoginRequest{
-		Username: vars["username"],
-		Password: vars["password"],
-	}
+func ValidateLoginRequest(c echo.Context) (*domain.User, *Error) {
+	loginRequest := new(LoginRequest)
 
+	if err := c.Bind(loginRequest); err != nil {
+		return nil, BindError()
+	}
 	var validationErrors []string
 
 	if len(loginRequest.Password) < 8 {

@@ -1,5 +1,13 @@
 version: "3.7"
 services:
+    golang_echo_api:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        ports:
+            - 8080:8080
+
+
     golang_echo_mongo:
         image: mongo:3.6
         environment:

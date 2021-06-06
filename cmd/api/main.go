@@ -1,10 +1,9 @@
 package main
 
 import (
-	"fmt"
-
-	"github.com/tonoy30/echo-go/pkg/settings"
+	"github.com/tonoy30/echo-go/internal/api"
 	"github.com/tonoy30/echo-go/pkg/data"
+	"github.com/tonoy30/echo-go/pkg/settings"
 )
 
 func main() {
@@ -12,5 +11,6 @@ func main() {
 	db := data.NewConnection(settings)
 	defer db.Disconnect()
 
-	fmt.Println("Tonoy")
+	application := api.New(settings, db.Client)
+	application.Start()
 }
