@@ -39,7 +39,7 @@ func (m MockDataStock) FindByUsername(username string) (*domain.User, error) {
 
 func (m MockDataStock) FindByEmail(email string) (*domain.User, error) {
 	for user := range mockData {
-		if mockData[user].Username == email {
+		if mockData[user].Email == email {
 			return &mockData[user], nil
 		}
 	}

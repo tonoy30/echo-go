@@ -19,6 +19,7 @@ func TestCreateAccount_UserExists(t *testing.T) {
 	newUser := &domain.User{
 		Username: "test",
 		Password: "test",
+		Email:    "test@gmail.com",
 	}
 
 	response := userService.CreateAccount(newUser)

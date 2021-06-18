@@ -5,6 +5,8 @@ services:
         build:
             context: .
             dockerfile: Dockerfile
+        ports:
+            - "5050:5050"
         env_file:
             - .env.docker
         networks:
@@ -39,6 +41,27 @@ services:
             - golang_echo_api
         links:
             - golang_echo_api:golang_echo_api
+
+    golang_echo_prometheus:
+        image: prom/prometheus:latest
+        container_name: golang_echo_prometheus
+        ports:
+            - "9090:9090"
+        networks:
+            - golang_echo_network
+        volumes:
+            - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+            - ./prometheus:/var/lib/prometheus
+        command:
+            - '--config.file=/etc/prometheus/prometheus.yml'
+        restart: unless-stopped
+
+    golang_echo_grafana:
+        image: grafana/grafana
+        ports:
+            - "3000:3000"
+        networks:
+            - golang_echo_network
 
 volumes:
     mongo:

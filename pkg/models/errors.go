@@ -4,7 +4,7 @@ type Error struct {
 	Message    string   `json:"message"`
 	Code       int      `json:"code"`
 	Name       string   `json:"name"`
-	Error      string   `json:"_"`
+	Error      string   `json:"_,omitempty"`
 	Validation []string `json:"validation,omitempty"`
 }
 

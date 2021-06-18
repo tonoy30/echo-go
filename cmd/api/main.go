@@ -7,10 +7,10 @@ import (
 )
 
 func main() {
-	settings := settings.NewSettings()
-	db := data.NewConnection(settings)
+	s := settings.NewSettings()
+	db := data.NewConnection(s)
 	defer db.Disconnect()
 
-	application := api.New(settings, db.Client)
+	application := api.New(s, db.Client)
 	application.Start()
 }

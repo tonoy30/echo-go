@@ -20,7 +20,7 @@ type Settings struct {
 
 func NewSettings() *Settings {
 	var settings Settings
-
+	viper.AddConfigPath(".")
 	viper.SetConfigFile(".env")
 	viper.SetConfigType("env")
 

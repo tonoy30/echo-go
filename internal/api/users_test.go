@@ -15,7 +15,7 @@ import (
 
 func TestRegisterAccount_UsernameExists(t *testing.T) {
 	// test data
-	testUser := `{"username": "user1", "password": "password23"}`
+	testUser := `{"username": "user1", "password": "password23", ""}`
 
 	// echo setup
 	e := echo.New()
