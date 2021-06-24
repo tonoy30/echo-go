@@ -50,5 +50,5 @@ func NewConnection(settings *settings.Settings) Connection {
 
 func (c Connection) Disconnect() {
 	log.Println("Database disconnecting...")
-	c.Client.Disconnect(c.ctx)
+	_ = c.Client.Disconnect(c.ctx)
 }

@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: echo-go-configmap
+data:
+  jwt_expires: "5"
+  environment: "production"
+  database_name: "golang_echodb"
+  db_host: mongodb-service
+  db_driver: "mongodb"
+  db_port: "27017"

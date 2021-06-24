@@ -1,7 +1,18 @@
 {
     "cSpell.words": [
         "bcrypt",
+        "configmap",
         "dgrijalva",
-        "stretchr"
+        "echo",
+        "echodb",
+        "go",
+        "golang",
+        "initdb",
+        "mongo",
+        "mongodb",
+        "root",
+        "statefulset",
+        "stretchr",
+        "username"
     ]
 }

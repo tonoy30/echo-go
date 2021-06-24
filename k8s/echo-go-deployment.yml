@@ -1,0 +1,91 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: echo-go-api-deployment
+spec:
+  selector:
+    matchLabels:
+      app: echo-go-api
+  template:
+    metadata:
+      labels:
+        app: echo-go-api
+    spec:
+      containers:
+      - name: echo-go-api
+        image: tonoy30/echo-go:latest
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+          - containerPort: 5050
+        livenessProbe:
+          httpGet:
+            path: /v1/public/healthy
+            port: 5050
+        readinessProbe:
+          httpGet:
+            path: /v1/public/healthy
+            port: 5050
+        env:
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: mongodb-secret
+              key:  mongo-root-username
+        - name: DB_PASS
+          valueFrom:
+            secretKeyRef:
+              name: mongodb-secret
+              key:  mongo-root-password
+        - name: DB_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: echo-go-configmap
+              key:  database_name
+        - name: DB_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: echo-go-configmap
+              key:  db_host
+        - name: DB_DRIVER
+          valueFrom:
+            configMapKeyRef:
+              name: echo-go-configmap
+              key:  db_driver
+        - name: ENV
+          valueFrom:
+            configMapKeyRef:
+              name: echo-go-configmap
+              key:  environment
+        - name: DB_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: echo-go-configmap
+              key:  db_port
+        - name: JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: echo-go-secret
+              key:  jwt_secret
+        - name: JWT_EXPIRES
+          valueFrom:
+            configMapKeyRef:
+              name: echo-go-configmap
+              key:  jwt_expires
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: echo-go-api-service
+spec:
+  selector:
+    app: echo-go-api
+  type: LoadBalancer
+  ports:
+  - protocol: TCP
+    port: 5050
+    targetPort: 5050
+    nodePort: 30002

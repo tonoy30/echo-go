@@ -2,3 +2,7 @@
 Makefile
 .git
 .gitignore
+/k8s
+/bin
+/mongo
+*.md
